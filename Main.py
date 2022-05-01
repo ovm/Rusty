@@ -1,5 +1,8 @@
+import base64
+import calendar
 import win32api, ctypes, math, pyttsx3, random, multiprocessing
-from datetime import datetime, timedelta
+from datetime import datetime ,timedelta #line:2
+import time
 from discord_webhook import DiscordWebhook
 from bs4 import BeautifulSoup as BS
 import requests
@@ -7,9 +10,79 @@ import atexit
 import python_weather
 import asyncio
 from numpy.random import seed
+from bisect import bisect
+import pyfiglet as pyg
 from numpy.random import rand
-seed(73)
+#from gui import *
+
+import pypresence
+from colorama import Fore, Back, Style, init
+init(autoreset=True)
+
+RPC = pypresence.Presence(970403846956404736)
+RPC.connect()
+RPC.update(large_image="xcoiled", large_text="xCoil", details="Starting", state="init", start=time.time(), end=None)
+
+
+res= pyg.figlet_format("Welcome to JavaTpoint!")  
+message = "Online in 16 servers!"
+message_bytes = message.encode('ascii')
+base64_bytes = base64.b64encode(message_bytes)
+base64_message = base64_bytes.decode('ascii')
+print(Fore.RED + base64_message)
+seed (calendar.timegm(time.gmtime()))
+
 url = "https://www.google.com / search?q = gold + price"
+#def weighted_choice(choices):
+
+
+#  values, weights = zip(*choices)
+    #  total = 0
+    #  cum_weights = []
+    # for w in weights:
+    #      total += w
+        #     cum_weights.append(total)
+    #x = random() * total
+    #i = bisect(cum_weights, x)
+    #    return values[i]
+
+
+#pixelRand = weighted_choice([(-1, 1,80), (-2, 2,15), (-3, 3,5)])
+
+
+def grab_int():
+    global percent
+    global percentLeft
+    global upby
+
+    # I want the weight of the numbers to go down the higher they get (so I will get more 0s than 1s, more 1s than 2, etc)
+    current = random.randint(0, 100)
+    if current < 30:
+        #upby = 0
+        return 0
+        #0
+    elif current < 60:
+        upby = random.randint(-1, 1)
+        return upby
+        #1
+    elif current < 85:
+        upby = random.randint(-2, 2)
+        return upby
+        #2
+    elif current < 92:
+        upby = random.randint(-3, 3)
+        return upby
+    else: # I'm dumb so I accidentally only added up to 95%, This just gives 0 a 5% higher chance without having to rewrite all the other values
+        upby = 0
+        return upby
+        print(Fore.RED + "cringe")
+
+        #0
+
+#print(str(grab_int()))
+
+
+
 
 async def getweather():
     # declare the client. format defaults to metric system (celcius, km/h, etc.)
@@ -19,7 +92,7 @@ async def getweather():
     weather = await client.find("Washington DC")
 
     # returns the current day's forecast temperature (int)
-    print(weather.current.temperature)
+    print(Fore.CYAN + weather.current.temperature)
 
     # get the weather forecast for a few days
     for forecast in weather.forecasts:
@@ -43,7 +116,7 @@ def get_price(url):
     return ans
 
 def goodbye(name, adjective):
-    print ('Goodbye, %s, it was %s to meet you.' % (name, adjective))
+    print (Fore.WHITE + 'Goodbye, %s, it was %s to meet you.' % (name, adjective))
     loop = asyncio.get_event_loop()
     loop.run_until_complete(getweather())
     ans = get_price(url)
@@ -89,7 +162,7 @@ becoilZelays = [
     0.20
 ]
 
-webhook = DiscordWebhook(url='https://discord.com/api/webhooks/969239321506881566/rGKcYOP1vnNL-z9seze5YyxYNst0NefaUeXdJJ_SQkVoSI1QI7OsmJnv0vkYJB0gLcdd', content='Webhook Message')
+webhook = DiscordWebhook(url='https://discord.com/api/webhooks/123123123123123123123123', content='Started Personal')
 response = webhook.execute()
 
 def colored(r, g, b, text):
@@ -104,7 +177,7 @@ print(colored_text)
 
 print(colored(255, 0, 0, 'Discord Bot Started'))
 
-
+print(res)
     
 popeValues = [
     #None
@@ -151,19 +224,23 @@ def ratMovCurv(x,y,delay): #Recoil control for curved weapons
         moveindex += 1
         if absx * moveindex  > (dxindex + 1) * divider:
             dxindex += 1
-            ctypes.windll.user32.mouse_event(0x0001, int(x/abs(x) + random.randint(-2, 2)), 0, 0, 5)
+            ctypes.windll.user32.mouse_event(0x0001, int(x/abs(x) + int(grab_int())), 0, 0, 5)
+            #print(int(x/abs(x) + int(grab_int())))
         if ry * moveindex  > (dyindex + 1) * divider:
             dyindex += 1
-            ctypes.windll.user32.mouse_event(0x0001, 0, int(y/abs(y) + random.randint(-2, 2)), 0, 5)
+            ctypes.windll.user32.mouse_event(0x0001, 0, int(y/abs(y) + int(grab_int())), 0, 5)
+            #print(int(x/abs(x) + int(grab_int())))
         sleepTime = timedelta(seconds = bullet_delay)
         while bulletZtarttime + sleepTime > datetime.now():
             pass
     if x != 0 and y != 0:
         if round(x) != dxindex * int(x/abs(x)) + dx * moveindex:
-            ctypes.windll.user32.mouse_event(0x0001, int(x/abs(x) + random.randint(-2, 2)), 0, 0, 5)
+            ctypes.windll.user32.mouse_event(0x0001, int(x/abs(x) + int(grab_int())), 0, 0, 5)
+            #print(int(x/abs(x) + int(grab_int())))
             dxindex += 1
         if round(y) != dyindex * int(y/abs(y)) + dy * moveindex:
-            ctypes.windll.user32.mouse_event(0x0001, int(y/abs(y) + random.randint(-2, 2)), 0, 0, 5)
+            ctypes.windll.user32.mouse_event(0x0001, int(y/abs(y) + int(grab_int())), 0, 0, 5)
+            #print(int(x/abs(x) + int(grab_int())))
             dyindex += 1
     sleepTime = timedelta(seconds = delay)
     while start_time + sleepTime > datetime.now():
@@ -172,7 +249,7 @@ def ratMovCurv(x,y,delay): #Recoil control for curved weapons
 def ringMouf(recageBattern, delay):
     global start_time
     current_bullet = 0
-    url = "https://www.google.com / search?q = gold + prices"
+    url = "https://www.google.com / search?q = silver + prices"
     if activeZeapon < 6: #Curved weapons that need smoothing
         while current_bullet < len(recageBattern) and win32api.GetKeyState(0x01) < 0:
             if current_bullet != 0:
@@ -192,15 +269,16 @@ def ringMouf(recageBattern, delay):
         if win32api.GetKeyState(0x11) < 0: #If player crouched, recoil is .5 for these weapons
                 recoil_x = recoil_x / 2
                 recoil_y = recoil_y / 2
-        ctypes.windll.user32.mouse_event(0x0001, int(recoil_y + random.randint(-2, 2)), int(recoil_x + random.randint(-2, 2)), 0, 5)
+        ctypes.windll.user32.mouse_event(0x0001, int(recoil_y + int(grab_int())), int(recoil_x + int(grab_int())), 0, 5)
+
         sleepTime = timedelta(seconds = delay)
         while start_time + sleepTime > datetime.now() or win32api.GetKeyState(0x01) < 0:
                 pass
 
 def scope_change(): #Changes the current scope value
     global activeZcope
-    circumference = 2 * math.pi * radius
-    print("Circumference of the circle is : %.2f" % circumference)
+    #circumference = 2 * math.pi * radius
+    #print("Circumference of the circle is : %.2f" % circumference)
     if activeZcope == 4: #Max number of scopes
         activeZcope = 0
     else:
@@ -210,10 +288,6 @@ def weapon_change(int): #Changes the current weapon value
     if int == -1 and activeZeapon == 0:
         return 8
     elif int == 1 and activeZeapon == 8: #Max number of weapons
-        for i in range(0,height):
-            for j in range(0,height - i):
-                print(c+" ", end='')
-            print()
         return 0
     else:
         return (activeZeapon + int)
@@ -228,27 +302,27 @@ def run():
     #p.start()
 
     # Three sides of the triangle is a, b and c:
-    a = float(input('Enter first side: '))
-    b = float(input('Enter second side: '))
-    c = float(input('Enter third side: '))
+    a = float(input('Enter 1st side: '))
+    b = float(input('Enter 2nd side: '))
+    c = float(input('Enter 3rd side: '))
 
     # calculate the semi-perimeter
     s = (a + b + c) / 2
 
     # calculate the area
     area = (s * (s - a) * (s - b) * (s - c)) ** 0.5
-    print('The area of the triangle is %0.2f' % area)
+    print(Fore.BLUE + 'The area of the triangle is %0.2f' % area)
 
 
 
     #TTS Settings
     engine = pyttsx3.init()
-    engine.setProperty("volume", 0.7)
-    engine.setProperty("rate", 175)
+    engine.setProperty("volume", 0.75)
+    engine.setProperty("rate", 152)
     voices = engine.getProperty("voices")
     engine.setProperty("voice", voices[1].id)
     engine.say("Ztarted LMAO")
-    engine.runAndWait() #Run engine.say and wait till done
+    engine.runAndWait()
     while active: #Main loop
         #While not paused
         if not paused:
@@ -262,6 +336,7 @@ def run():
                 #p = multiprocessing.Process(target=Overlay.draw, args=[weaponbloverlay[activeZeapon], scopesbloverlay[activeZcope]])
                 #p.start()
                 engine.say(all_weapons[activeZeapon])
+                RPC.update(large_image="xcoiled", large_text="xCoil", details=str(all_weapons[activeZeapon]), state=str(all_scopes[activeZcope]), start=time.time(), end=None)
                 engine.runAndWait()
             if win32api.GetKeyState(0x26) < 0: #PageUp
                 activeZeapon = weapon_change(-1)
@@ -269,13 +344,15 @@ def run():
                 #p = multiprocessing.Process(target=Overlay.draw, args=[weaponbloverlay[activeZeapon], scopesbloverlay[activeZcope]])
                 #p.start()
                 engine.say(all_weapons[activeZeapon])
+                RPC.update(large_image="xcoiled", large_text="xCoil", details=str(all_weapons[activeZeapon]), state=str(all_scopes[activeZcope]), start=time.time(), end=None)
                 engine.runAndWait()
-            if win32api.GetKeyState(0x24) < 0: #Home
+            if win32api.GetKeyState(0x27) < 0: #rArrow
                 scope_change()
                 #p.terminate()
                 #p = multiprocessing.Process(target=Overlay.draw, args=[weaponbloverlay[activeZeapon], scopesbloverlay[activeZcope]])
                 #p.start()
                 engine.say(all_scopes[activeZcope])
+                RPC.update(large_image="xcoiled", large_text="xCoil", details=str(all_weapons[activeZeapon]), state=str(all_scopes[activeZcope]), start=time.time(), end=None)
                 engine.runAndWait()
         #Doesnt Matter if Paused
         if win32api.GetKeyState(0x91) < 0: #ScrLk
@@ -305,7 +382,7 @@ def __del__(self):
     print(ans)
 
 
-a = x()
+#a = x()
 
 @atexit.register
 def goodbye():
