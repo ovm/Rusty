@@ -19,7 +19,7 @@ import pypresence
 from colorama import Fore, Back, Style, init
 init(autoreset=True)
 
-RPC = pypresence.Presence(970403846956404736)
+RPC = pypresence.Presence(123123123)
 RPC.connect()
 RPC.update(large_image="xcoiled", large_text="xCoil", details="Starting", state="init", start=time.time(), end=None)
 
