@@ -7,7 +7,6 @@ from discord_webhook import DiscordWebhook
 from bs4 import BeautifulSoup as BS
 import requests
 import atexit
-import python_weather
 import asyncio
 from numpy.random import seed
 from bisect import bisect
